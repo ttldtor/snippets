@@ -28,6 +28,12 @@ constexpr auto InstanceWithTypesFromHelper(TypesHolder<Ts...> = TypesHolder<Ts..
 template <template <typename...> typename C, typename T>
 using InstanceWithTypesFrom = decltype(InstanceWithTypesFromHelper<C, T>(typename GetInstancingTypes<T>::result()));
 
+template <template <typename...> typename C>
+struct Instance {
+    template <typename T>
+    using WithTypesFrom = InstanceWithTypesFrom<C, T>;
+};
+
 template <typename... Ts>
 struct A {};
 
@@ -44,4 +50,5 @@ int main() {
     printTypes<typename GetInstancingTypes<A<int, double, void>>::result>();
     std::cout << std::boolalpha << "A<int, double, void> is instance of A -- " << IsInstanceOf<A<int, double, void>, A> << "\n";
     printTypes<InstanceWithTypesFrom<B, A<int, double, void>>>();
+    printTypes<Instance<B>::WithTypesFrom<A<int, double, void>>>();
 }
