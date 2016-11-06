@@ -9,12 +9,12 @@ struct GetInstancingTypes {};
 
 template <template <typename...> typename C, typename... Ts>
 struct GetInstancingTypes<C<Ts...>> {
-	using result = TypesHolder<Ts...>;
+    using result = TypesHolder<Ts...>;
 };
 
 template <template <typename...> typename C, typename T, typename... Ts>
 constexpr auto InstanceWithTypesFromHelper(TypesHolder<Ts...> = TypesHolder<Ts...>()) {
-	return C<Ts...>();
+    return C<Ts...>();
 }
 
 template <template <typename...> typename C, typename T>
@@ -22,8 +22,8 @@ using InstanceWithTypesFrom = decltype(InstanceWithTypesFromHelper<C, T>(typenam
 
 template <template <typename...> typename C>
 struct Instance {
-	template <typename T>
-	using WithTypesFrom = InstanceWithTypesFrom<C, T>;
+    template <typename T>
+    using WithTypesFrom = InstanceWithTypesFrom<C, T>;
 };
 
 template<typename T, template <typename...> typename C>
@@ -31,7 +31,7 @@ constexpr bool IsInstanceOf = std::is_same<T, typename Instance<C>::template Wit
 
 template<typename... Ts>
 void printTypes() {
-	std::cout << __PRETTY_FUNCTION__ << "\n";
+    std::cout << __PRETTY_FUNCTION__ << "\n";
 }
 
 template <typename... Ts>
